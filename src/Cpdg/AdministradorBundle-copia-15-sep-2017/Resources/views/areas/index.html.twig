@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Modal -->
+    <div id="newModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ingresar nuevo</h4>
+          </div>
+          <div class="modal-body">
+                {{ form_start(formNew, {'action': '../new'}) }}
+                    {{ form_widget(formNew) }}
+                    <input type="submit" class="btn btn-primary" value="Ingresar nuevo"></input>
+                {{ form_end(formNew) }}
+          </div>
+          <div class="modal-footer" style="text-align: right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- containner -->
+    <div class="container">
+      <h2><i class="fa fa-list" aria-hidden="true"></i> Departamentos</h2>  
+      <table class="table table-hover">
+        <thead>
+        <tr>
+            <form method="post" action="{{ path('areas_index', { 'page': 1 }) }}">
+            <th style="width: 30%;"><input type="text" class="form-control" placeholder="Buscar..." id="buscar" name="buscar" required></th>                              
+            <th style="width: 1%;">                  
+               <button type="submit" class="btn btn-primary"><i class="fa fa-search-plus" aria-hidden="true"></i> Buscar</button>   
+            </th>
+            </form>        
+            <th style="width: 1%;">               
+               <a href="{{ path('areas_index', { 'page': 1 }) }}" class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Ver todos</a>  
+            </th>                             
+            <th style="width: 1%;">                  
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal"><i class="fa fa-plus" aria-hidden="true"></i> Crear Nuevo</button>   
+            </th>
+            <th colspan="10">&nbsp;
+            </th>
+          </tr>
+        </thead>
+        </table>                
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Nombre</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% set iniciaResultados = page * cantidadPorPagina  %}
+        {% set counter = (iniciaResultados + 1)  %}
+        {% for resultArray in resultset %}
+          <tr>
+            <td>{{ counter }}</td>
+            <td>{{ resultArray.nombre }}</td>
+            <td style="text-align: center; min-width: 160px; text-align: left;">                
+                        <a class="btn btn-default" href="{{ path('areas_edit', { 'id': resultArray.id }) }}">Editar</a>&nbsp;
+                        <a class="btn btn-default" onClick="confirmdelete('{{ resultArray.nombre }}','{{ path('areas_delete', { 'id': resultArray.id }) }}')">Eliminar</a>
+                       
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        {% set counter = counter + 1 %}
+        {% endfor %}  
+            <tr>
+                <td colspan="7">
+                    <div class="paginacion">
+                        {{ knp_pagination_render(resultset) }}
+                    </div>
+                </td>
+            </tr>       
+        </tbody>
+      </table>
+    </div>
+    <script>
+        function confirmdelete(uservar, delvar){            
+            swal({
+              title: "Eliminar",
+              text: "¿Realmente desea eliminar a: " + uservar + "?",
+              type: "error",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar",
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "Eliminar",
+              closeOnConfirm: false
+            },
+            function(){           
+              window.location.href=delvar;
+            });
+        }
+    </script>
+{% endblock %}

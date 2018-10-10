@@ -1,0 +1,28 @@
+contactos_index:
+    path:     /page/{page}
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:index" }
+    methods:  [GET, POST]
+
+contactos_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:show" }
+    methods:  GET
+
+contactos_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:new" }
+    methods:  [GET, POST]
+
+contactos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:edit" }
+    methods:  [GET, POST]
+
+contactos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:delete" }
+    methods:  [GET, POST]
+contactos_exportarExcel:
+    path:     /exportarExcel
+    defaults: { _controller: "CpdgAdministradorBundle:Contactos:exportarExcel" }
+    methods:  [GET, POST]

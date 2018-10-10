@@ -1,0 +1,4 @@
+usuariousr_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgUsuarioBundle:Usuario:edit" }
+    methods:  [GET, POST]

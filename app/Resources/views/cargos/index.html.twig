@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Cargos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cargo in cargos %}
+            <tr>
+                <td><a href="{{ path('cargos_show', { 'id': cargo.id }) }}">{{ cargo.id }}</a></td>
+                <td>{{ cargo.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('cargos_show', { 'id': cargo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('cargos_edit', { 'id': cargo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('cargos_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

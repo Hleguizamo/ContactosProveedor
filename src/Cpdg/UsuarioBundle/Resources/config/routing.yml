@@ -1,0 +1,12 @@
+cpdg_usuario_inicio:
+    resource: "@CpdgUsuarioBundle/Resources/config/routing/inicio.yml"
+    prefix:   /
+cpdg_usuario_proveedores:
+    resource: "@CpdgUsuarioBundle/Resources/config/routing/proveedores.yml"
+    prefix:   /proveedores
+cpdg_usuario_contactos:
+    resource: "@CpdgUsuarioBundle/Resources/config/routing/contactos.yml"
+    prefix:   /contactos
+cpdg_usuario_usuario:
+    resource: "@CpdgUsuarioBundle/Resources/config/routing/usuario.yml"
+    prefix:   /usuario

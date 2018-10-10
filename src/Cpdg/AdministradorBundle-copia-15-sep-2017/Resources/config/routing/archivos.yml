@@ -1,0 +1,24 @@
+archivos_index:
+    path:     /
+    defaults: { _controller: "CpdgAdministradorBundle:Archivos:index" }
+    methods:  GET
+
+archivos_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgAdministradorBundle:Archivos:show" }
+    methods:  GET
+
+archivos_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Archivos:new" }
+    methods:  [GET, POST]
+
+archivos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Archivos:edit" }
+    methods:  [GET, POST]
+
+archivos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Archivos:delete" }
+    methods:  DELETE

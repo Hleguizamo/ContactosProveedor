@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Usuario list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Razonsocial</th>
+                <th>Nombrecontacto</th>
+                <th>Email</th>
+                <th>Contrasena</th>
+                <th>Actualizacion</th>
+                <th>Estado</th>
+                <th>Cambioclave</th>
+                <th>Ultimaclave</th>
+                <th>Public</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+            <tr>
+                <td><a href="{{ path('usuario_show', { 'id': usuario.id }) }}">{{ usuario.id }}</a></td>
+                <td>{{ usuario.razonSocial }}</td>
+                <td>{{ usuario.nombreContacto }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.contrasena }}</td>
+                <td>{% if usuario.actualizacion %}{{ usuario.actualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if usuario.estado %}Yes{% else %}No{% endif %}</td>
+                <td>{% if usuario.cambioClave %}{{ usuario.cambioClave|date('Y-m-d') }}{% endif %}</td>
+                <td>{{ usuario.ultimaClave }}</td>
+                <td>{% if usuario.public %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('usuario_show', { 'id': usuario.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('usuario_edit', { 'id': usuario.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('usuario_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

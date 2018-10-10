@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Administrador</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ administrador.id }}</td>
+            </tr>
+            <tr>
+                <th>Usuario</th>
+                <td>{{ administrador.usuario }}</td>
+            </tr>
+            <tr>
+                <th>Contrasena</th>
+                <td>{{ administrador.contrasena }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ administrador.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ administrador.email }}</td>
+            </tr>
+            <tr>
+                <th>Public</th>
+                <td>{% if entity.public %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('administrador_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('administrador_edit', { 'id': administrador.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

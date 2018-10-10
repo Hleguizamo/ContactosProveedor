@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Modal find -->
+    <div id="findModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal find -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-search-plus" aria-hidden="true"></i> Buscar</h4>
+          </div>
+            <div class="modal-body">
+              {{ form_start(formFind) }}
+                    {{ form_widget(formFind) }}
+
+                    <div class="form-group">
+                        <label class="control-label" for="contactos_find_idProveedor">Convenio: </label>
+                        <select class="form-control" id="convenioSeleccionado" name="convenioSeleccionado">
+                          <option value="sinSeleccionar" selected="selected"></option>
+                          <option value="1">Activo</option>
+                          <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="contactos_find_idProveedor">Fecha Activacion Convenio: </label>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                              <select class="form-control" id="filtroFecha" name="filtroFecha" style="width: 150px !important;">
+                                <option value=">=">Mayor o Igual A</option>
+                                <option value="<=">Menor o Igual A</option>
+                              </select>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" id="activacionConvenio" name="activacionConvenio" class="date form-control" value="" style="width: 200px !important;">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Buscar"></input>
+                {{ form_end(formFind) }}
+          </div>               
+          <div class="modal-footer" style="text-align:right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- containner -->
+    <div class="container-fluid">
+      <h2><i class="fa fa-users" aria-hidden="true"></i> Contactos</h2>  
+      <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">                  
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#findModal"><i class="fa fa-search-plus" aria-hidden="true"></i> Busqueda</button>   
+            </th>         
+            <th style="width: 1%;">               
+               <a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.nombre',  'ordervaro': 'asc' }) }}" class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Ver todos</a>  
+            </th> 
+                             
+            <th style="width: 1%;"> 
+                <a href="{{ path('contactosusr_exportarExcelTodos', {parametros: parametros}) }}" class="btn btn-success"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel</a>
+            </th>
+            <th colspan="10">&nbsp;
+            </th>
+          </tr>
+        </thead>
+        </table>                
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            {% if ordervaro == "asc" %}
+            {% set ordervaro = "desc" %}
+            {% set updownvar = "down" %}
+            {% elseif  ordervaro == "desc" %}
+            {% set ordervaro = "asc" %}
+             {% set updownvar = "up" %}
+            {% endif %}
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.nombre',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.nombre" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+             Empresa / Razón Social</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.nit',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.nit" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Nit</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.codigo',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.codigo" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Código</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.representanteLegal',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.representanteLegal" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Representante Legal</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.emailRepresentanteLegal',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.emailRepresentanteLegal" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Representante Legal Email</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.telefonoRepresentanteLegal',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "p.telefonoRepresentanteLegal" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Representante Legal Teléfono</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'e.nombreContacto',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "e.nombreContacto" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Nombre Contacto</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'c.nombre',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "c.nombre" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Rol</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'e.ciudad',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "e.ciudad" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Ciudad</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'e.email',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "e.email" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            <i class="fa fa-envelope-square" aria-hidden="true"></i> Email</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'e.telefono',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "e.telefono" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            <i class="fa fa-phone-square" aria-hidden="true"></i> Telefono</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'e.movil',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "e.movil" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            <i class="fa fa-mobile" aria-hidden="true"></i> Movil</a></th>
+            <th><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'a.nombre',  'ordervaro': ordervaro}) }}">
+            {% if ordervar == "a.nombre" %}
+              <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+            {% endif %}
+            Departamento</a></th>
+
+            <td>
+              <a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.convenio',  'ordervaro': ordervaro}) }}">
+                {% if ordervar == "p.convenio" %}
+                  <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+                {% endif %}
+                Convenio
+              </a>
+            </td>
+            <td>   
+              <a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.fechaInicio',  'ordervaro': ordervaro}) }}">
+                {% if ordervar == "p.fechaInicio" %}
+                  <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+                {% endif %}
+                Fecha inicio
+              </a>
+            </td>
+            <td>
+               <a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.fechaFin',  'ordervaro': ordervaro}) }}">
+                {% if ordervar == "p.fechaFin" %}
+                  <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+                {% endif %}
+                Fecha final
+              </a>
+            </td>
+            <td>
+               <a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.divisiones',  'ordervaro': ordervaro}) }}">
+                {% if ordervar == "p.divisiones" %}
+                  <i class="fa fa-caret-{{updownvar}}" aria-hidden="true"></i>
+                {% endif %}
+                Divisiones
+              </a>
+            </td>
+            
+
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% set iniciaResultados = page * cantidadPorPagina  %}
+        {% set counter = (iniciaResultados + 1)  %}
+        {% for resultArray in resultset %}
+          <tr>
+            <td>{{ counter }}</td>
+            <td>{{ resultArray.idProveedor.nombre }}</td>
+            <td>{{ resultArray.idProveedor.nit }}</td>
+            <td>{{ resultArray.idProveedor.codigo }}</td>
+            <td>{{ resultArray.idProveedor.representanteLegal }}</td>
+            <td>{{ resultArray.idProveedor.emailRepresentanteLegal }}</td>
+            <td>{{ resultArray.idProveedor.telefonoRepresentanteLegal }}</td>
+            <td>{{ resultArray.nombreContacto }}</td>
+            <td>{{ resultArray.idCargo.nombre }}</td>
+            <td>{{ resultArray.ciudad }}</td>
+            <td>{{ resultArray.email }}</td>
+            <td>{{ resultArray.telefono }}</td>
+            <td>{{ resultArray.movil }}</td>
+            <td>{{ resultArray.idArea.nombre }}</td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                <span class="text-danger">Activo</span>
+              {% else %}
+                Inactivo
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                {{resultArray.idProveedor.fechaInicio|date('Y-m-d')}}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                {{resultArray.idProveedor.fechaFin|date('Y-m-d')}}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {{resultArray.idProveedor.divisiones}}
+            </td>
+            
+          </tr>
+        {% set counter = counter + 1 %}
+        {% endfor %}  
+            <tr>
+                <td colspan="7">
+                    <div class="paginacion">
+                        {{ knp_pagination_render(resultset) }}
+                    </div>
+                </td>
+            </tr>       
+        </tbody>
+      </table>
+    </div>
+    <script>
+    $('#activacionConvenio').datetimepicker({
+      format:'YYYY-MM-DD',
+      locale:'es'
+    });
+        function confirmdelete(uservar, delvar){            
+            swal({
+              title: "Eliminar",
+              text: "¿Realmente desea eliminar a: " + uservar + "?",
+              type: "error",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar",
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "Eliminar",
+              closeOnConfirm: false
+            },
+            function(){           
+              window.location.href=delvar;
+            });
+        }
+    </script>
+{% endblock %}
+

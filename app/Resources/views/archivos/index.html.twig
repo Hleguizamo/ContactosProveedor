@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Archivos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for archivo in archivos %}
+            <tr>
+                <td><a href="{{ path('archivos_show', { 'id': archivo.id }) }}">{{ archivo.id }}</a></td>
+                <td>{{ archivo.nombre }}</td>
+                <td>{% if archivo.fecha %}{{ archivo.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('archivos_show', { 'id': archivo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('archivos_edit', { 'id': archivo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('archivos_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

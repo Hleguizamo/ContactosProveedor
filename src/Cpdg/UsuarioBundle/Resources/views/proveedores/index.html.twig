@@ -1,0 +1,256 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Modal find -->
+    <div id="findModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal find -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-search-plus" aria-hidden="true"></i> Buscar</h4>
+          </div>
+               <form name="proveedores" method="post" action="">
+                    <div id="proveedores" style="padding: 10px;">
+                    <div class="form-group">
+                    <label class="control-label" for="proveedores_nit">Nit</label>
+                    <input type="number" id="proveedores_nit" name="proveedores[nit]" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                    <label class="control-label" for="proveedores_nombre">Nombre</label>
+                    <input type="text" id="proveedores_nombre" name="proveedores[nombre]" maxlength="256" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                    <label class="control-label" for="proveedores_codigo">Codigo</label>
+                    <input type="text" id="proveedores_codigo" name="proveedores[codigo]" maxlength="32" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                    <label class="control-label" for="proveedores_representanteLegal">Representante legal</label>
+                    <input type="text" id="proveedores_representanteLegal" name="proveedores[representanteLegal]" maxlength="255" class="form-control" /></div>
+
+                    <div class="form-group">
+                    <label class="control-label" for="proveedores_emailRepresentanteLegal">Email representante legal</label>
+                    <input type="text" id="proveedores_emailRepresentanteLegal" name="proveedores[emailRepresentanteLegal]" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label required" for="proveedores_telefonoRepresentanteLegal">Telefono representante legal</label>
+                      <input type="text" id="proveedores_telefonoRepresentanteLegal" name="proveedores[telefonoRepresentanteLegal]" maxlength="255" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" >Convenio: </label>
+                        <select class="form-control" id="convenioSeleccionado" name="convenioSeleccionado">
+                          <option value="sinSeleccionar" selected="selected"></option>
+                          <option value="1">Activo</option>
+                          <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="contactos_find_idProveedor">Fecha Activacion Convenio: </label>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                              <select class="form-control" id="filtroFecha" name="filtroFecha" style="width: 150px !important;">
+                                <option value=">=">Mayor o Igual A</option>
+                                <option value="<=">Menor o Igual A</option>
+                              </select>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" id="activacionConvenio" name="activacionConvenio" class="date form-control" value="" style="width: 200px !important;">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        
+                      <label class="control-label" for="contactos_find_idProveedor">Fecha última modificación: </label>
+                      <div class="form-row">
+                          <div class="col-md-4">
+                            <select class="form-control" id="filtroFechaUltimaModificacion" name="filtroFechaUltimaModificacion" style="width: 150px !important;">
+                              <option value=">=">Mayor o Igual A</option>
+                              <option value="<=">Menor o Igual A</option>
+                            </select>
+                          </div>
+                          <div class="col-md-8">
+                            <input type="text" id="fechaUltimaModificacion" name="fechaUltimaModificacion" class="date form-control" value="" style="width: 200px !important;">
+                          </div>
+                      </div>
+
+                    </div>
+
+
+
+                      <input type="hidden" value="true" name="find">
+                      <input type="submit" class="btn btn-primary" value="Buscar"></input> 
+                      <br><br>
+                    </div>
+                                    
+                </form>
+          <div class="modal-footer" style="text-align:right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- containner -->
+    <div class="container">
+      <h2><i class="fa fa-users" aria-hidden="true"></i> Proveedores</h2>  
+      <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">                  
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#findModal"><i class="fa fa-search-plus" aria-hidden="true"></i> Busqueda</button>   
+            </th>        
+            <th style="width: 1%;">               
+               <a href="{{ path('proveedoresusr_index', { 'page': 1 }) }}" class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Ver todos</a>  
+            </th> 
+                             
+            <th style="width: 1%;"> 
+                <a href="{{ path('proveedoresusr_exportarExcel', {parametros: parametros}) }}" class="btn btn-success"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel</a>
+            </th>
+                     <!--       
+            <th style="width: 1%;">                  
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal"><i class="fa fa-plus" aria-hidden="true"></i> Crear Nuevo</button>   
+            </th> -->
+            <th colspan="10">&nbsp;
+            </th>
+          </tr>
+        </thead>
+        </table>                
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Nit</th>
+            <th>Empresa / Razón Social</th>
+            <th>Código</th>
+            <th>Representante Legal</th>
+            <th><i class="fa fa-envelope-square" aria-hidden="true"></i> Email</th>
+            <th><i class="fa fa-phone-square" aria-hidden="true"></i> Telefono</th>
+            <th> Convenio</th>
+            <th> Fecha de inicio</th>
+            <th> Fecha de finalización</th>
+            <th width="250px">
+              Fecha última modificación convenio
+            </th>
+            <th>
+              Divisiones
+            </th>
+            {% if hayConvenioActivo %}
+              <th> &nbsp;&nbsp;<i class="fa fa-pencil-square" ></i> Editar convenio</th>
+            {% endif %}
+
+          </tr>
+        </thead>
+        <tbody>
+        {% set iniciaResultados = page * cantidadPorPagina  %}
+        {% set counter = (iniciaResultados + 1)  %}
+        {% for resultArray in resultset %}
+          <tr>
+            <td>{{ counter }}</td>
+            <td>{{ resultArray.nit }}</td>
+            <td>{{ resultArray.nombre }}</td>
+            <td>{{ resultArray.codigo }}</td>
+            <td>{{ resultArray.representanteLegal }}</td>
+            <td>{{ resultArray.emailRepresentanteLegal }}</td>
+            <td>{{ resultArray.telefonoRepresentanteLegal }}</td>
+            <td> {% if resultArray.convenio == 1 %} <span class="text-danger">Activo</span> {% else %} Inactivo {% endif %} </td>
+            <td> {% if resultArray.convenio == 1 %} {{resultArray.fechaInicio |date('Y-m-d')}} {% else %} - {% endif %} </td>
+            <td> {% if resultArray.convenio == 1 %} {{resultArray.fechaFin |date('Y-m-d')}} {% else %} - {% endif %} </td>
+            <td width="250px">
+              {% if resultArray.fechaUltimaModificacion is null or resultArray.fechaUltimaModificacion|date('Y-m-d') < '2017-04-01' %}
+                -
+              {% else %}
+                {{resultArray.fechaUltimaModificacion|date('Y-m-d H:i:s a')}}
+              {% endif %}
+            </td>
+            <td>
+              {{resultArray.divisiones}}
+            </td>
+            {% if hayConvenioActivo %}
+              <td> 
+                <button class="btn btn-default editarConvenio" id="{{ resultArray.id }}" >Editar</button> 
+              </td>
+            {% endif %}
+            
+          </tr>
+        {% set counter = counter + 1 %}
+        {% endfor %}  
+            <tr>
+                <td colspan="7">
+                    <div class="paginacion">
+                        {{ knp_pagination_render(resultset) }}
+                    </div>
+                </td>
+            </tr>       
+        </tbody>
+      </table>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="idModalConvenio" role="dialog"  data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog moda">
+          <div class="modal-content">
+            <div class="modal-header text-center text-danger">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">EDITAR CONVENIO</h4>
+            </div>
+            <div class="modal-body" id="idBodyModalConvenio">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+    <script>
+
+      $().ready(function(){
+
+        $('#activacionConvenio, #fechaUltimaModificacion').datetimepicker({
+          format:'YYYY-MM-DD',
+          locale:'es'
+        });
+
+        $('.editarConvenio').click(function(){
+
+          var id = $( this ).attr('id');
+
+          $('#idBodyModalConvenio').empty().html('<center><i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom"></i></center>');
+          $('#idModalConvenio').modal();
+          $('#idBodyModalConvenio').load('{{path('proveedoresusr_edit')}}', {id:id});
+
+
+        });
+
+
+      });
+
+
+      function confirmdelete(uservar, delvar){            
+          swal({
+            title: "Eliminar",
+            text: "¿Realmente desea eliminar a: " + uservar + "?",
+            type: "error",
+            showCancelButton: true,
+            cancelButtonText: "Cancelar",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Eliminar",
+            closeOnConfirm: false
+          },
+          function(){           
+            window.location.href=delvar;
+          });
+      }
+    </script>
+{% endblock %}

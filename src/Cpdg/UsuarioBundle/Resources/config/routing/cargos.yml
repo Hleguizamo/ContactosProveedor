@@ -1,0 +1,24 @@
+cargos_index:
+    path:     /
+    defaults: { _controller: "CpdgUsuarioBundle:Cargos:index" }
+    methods:  GET
+
+cargos_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgUsuarioBundle:Cargos:show" }
+    methods:  GET
+
+cargos_new:
+    path:     /new
+    defaults: { _controller: "CpdgUsuarioBundle:Cargos:new" }
+    methods:  [GET, POST]
+
+cargos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgUsuarioBundle:Cargos:edit" }
+    methods:  [GET, POST]
+
+cargos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgUsuarioBundle:Cargos:delete" }
+    methods:  DELETE

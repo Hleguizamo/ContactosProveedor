@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Proveedores edit</h1>
+
+	{{ form_start(edit_form) }}
+
+      <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Informacion del Proveedor</a></li>
+
+          <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Asignacion de Cargos</a></li>
+
+      </ul>
+
+      <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="home">
+
+              {{ form_label(edit_form.nit) }}
+              {{ form_errors(edit_form.nit) }}
+              {{ form_widget(edit_form.nit) }}
+
+              {{ form_label(edit_form.nombre) }}
+              {{ form_errors(edit_form.nombre) }}
+              {{ form_widget(edit_form.nombre) }}
+
+              {{ form_label(edit_form.codigo) }}
+              {{ form_errors(edit_form.codigo) }}
+              {{ form_widget(edit_form.codigo) }}
+
+
+              {{ form_label(edit_form.representanteLegal) }}
+              {{ form_errors(edit_form.representanteLegal) }}
+              {{ form_widget(edit_form.representanteLegal) }}
+
+              {{ form_label(edit_form.emailRepresentanteLegal) }}
+              {{ form_errors(edit_form.emailRepresentanteLegal) }}
+              {{ form_widget(edit_form.emailRepresentanteLegal) }}
+
+              {{ form_label(edit_form.telefonoRepresentanteLegal) }}
+              {{ form_errors(edit_form.telefonoRepresentanteLegal) }}
+              {{ form_widget(edit_form.telefonoRepresentanteLegal) }}
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 {% if admin.convenio != 1 %}hidden{% endif %} ">
+                    <label>Divisiones Asignadas</label>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span class="h3 text-danger">{{divisiones}}</span>  
+                      </div>
+                      
+                    </div>
+
+                </div>
+            </div>
+
+              <div class="row">
+                  <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 {% if admin.convenio != 1 %}hidden{% endif %} ">
+                  {{ form_label(edit_form.convenio) }}
+                  {{ form_errors(edit_form.convenio) }}
+                  {{ form_widget(edit_form.convenio) }}
+
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" id="showHideDate">
+
+                      {{ form_label(edit_form.fechaInicio) }}
+                      {{ form_errors(edit_form.fechaInicio) }}
+                      <div class="form-group">
+                        <div class='input-group date datetimepicker' >
+                            {{ form_widget(edit_form.fechaInicio, {'attr':{'value':proveedor.fechaInicio|date('Y-m-d')} }) }}
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
+
+                      {{ form_label(edit_form.fechaFin) }}
+                      {{ form_errors(edit_form.fechaFin) }}
+                      <div class="form-group">
+                        <div class='input-group date datetimepicker'>
+                            {{ form_widget(edit_form.fechaFin, {'attr':{'value':proveedor.fechaFin|date('Y-m-d')} }) }}
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+            </div>
+              
+
+          </div>
+
+          <div role="tabpanel" class="tab-pane" id="profile">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12"><label class="control-label">Asignacion de Cargos</label></div>
+
+                  {%for cargo in cargos%}
+                    <div class="col-md-6"><input type="checkbox" class="checkCargos" name="cargo[{{cargo.id}}]" id="cargo[{{cargo.id}}]" value="{{cargo.id}}" {%if cargo.asignado is not null %}checked{%endif%}> {{cargo.nombre}}</div>
+                  {%endfor%}
+                </div>
+                
+              </div>
+          </div>
+          
+      </div>
+
+
+        <input type="submit" class="btn btn-success" value="Editar"></input>
+        &nbsp; &nbsp; 
+        <a  class="btn btn-primary" href="{{ path('proveedores_index') }}"><i class="fa fa-backward" aria-hidden="true"></i> Volver </a>
+    {{ form_end(edit_form) }}
+
+    {#{ form_start(edit_form) }#}
+        {#{ form_widget(edit_form) }#}
+        <!--  <input type="submit" value="Edit" /> -->
+    {#{ form_end(edit_form) }#}
+
+
+	<script>
+
+		 $().ready(function(){
+
+
+          $(".checkCargos").change(function(){
+              if($(this).is(':checked')){
+                  var accion = 1;
+              }else{
+                  var accion = 0;
+              }
+
+
+              $.ajax({
+                  statusCode: {
+                      404: function() {
+                          alert( "page not found" );
+                      }
+                  },
+                  url: '{{path('proveedores_asignar_cargo')}}?accion='+accion+'&proveedor={{proveedor.id}}&cargo='+$(this).val(),
+                  beforeSend:function(){
+                      //noty({layout:'center',text:'Procesando, por favor espere...<br><center><i class="icon-refresh icon-spin icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+                  },
+                  success: function(data){
+                      
+                      if(data.status == 1){
+
+                          alert(data.mensaje);
+ 
+                          
+                      }else{
+                        $(this).prop('checked', false);
+                        alert(data.mensaje);
+                      }
+                  },
+                  error:function( jqXHR, textStatus, errorThrown){
+
+                        mensaje = "Se produjo un error en el Servidor. Intente nuevamente";
+
+                        alert(mensaje);
+
+                  }
+              });
+
+
+
+          });
+		 	
+          showHideDate( '{{proveedor.convenio}}' );
+
+          $('#proveedores_convenio').change(function(){
+
+            showHideDate( $( this ).val() );
+
+          });
+
+          $('#proveedores_fechaInicio, #proveedores_fechaFin').datetimepicker({
+            format:'YYYY-MM-DD',
+            locale:'es'
+          });
+
+
+        });
+
+        function showHideDate( val ){
+
+          if( val == 1 ){
+            $('#showHideDate').show(1200);
+            //proveedores_convenio
+            $("#proveedores_convenio").val("1");
+          }else{
+            $("#proveedores_convenio").val("0");
+            $('#showHideDate').hide( 1200 );
+
+            $('#proveedores_fechaInicio').val('');
+            $('#proveedores_fechaFin').val('');
+          }
+
+        }//end fincion
+
+
+	</script>
+{% endblock %}

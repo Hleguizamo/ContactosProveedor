@@ -1,0 +1,10 @@
+parameters:
+  usuario.login_success_handler.class: Cpdg\UsuarioBundle\Listener\LoginListener
+services:
+#    cpdg_usuario.example:
+#        class: Cpdg\UsuarioBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+  usuario.login_success_handler.class:
+    class: %usuario.login_success_handler.class%
+    public: false
+    arguments:  ['@service_container']

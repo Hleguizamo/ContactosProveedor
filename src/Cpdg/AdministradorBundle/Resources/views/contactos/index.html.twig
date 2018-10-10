@@ -1,0 +1,209 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Modal -->
+    <div id="newModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ingresar nuevo</h4>
+          </div>
+          <div class="modal-body">
+              {{ form_start(formNew, {'action': '../new'}) }}
+                    {{ form_widget(formNew) }}
+                    <input type="submit" class="btn btn-primary" value="Ingresar nuevo"></input>
+                {{ form_end(formNew) }}
+          </div>
+          <div class="modal-footer" style="text-align: left;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal find -->
+    <div id="findModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal find -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-search-plus" aria-hidden="true"></i> Buscar</h4>
+          </div>
+            <div class="modal-body">
+              {{ form_start(formFind, {'action': '../../contactos/page/1'}) }}
+                    {{ form_widget(formFind) }}
+
+                    <div class="form-group">
+                        <label class="control-label" for="contactos_find_idProveedor">Convenio: </label>
+                        <select class="form-control" id="convenioSeleccionado" name="convenioSeleccionado">
+                          <option value="sinSeleccionar" selected="selected"></option>
+                          <option value="1">Activo</option>
+                          <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="contactos_find_idProveedor">Fecha Activacion Convenio: </label>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                              <select class="form-control" id="filtroFecha" name="filtroFecha" style="width: 150px !important;">
+                                <option value=">=">Mayor o Igual A</option>
+                                <option value="<=">Menor o Igual A</option>
+                              </select>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" id="activacionConvenio" name="activacionConvenio" class="date form-control" value="" style="width: 200px !important;">
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" value="Buscar"></input>
+                    
+                {{ form_end(formFind) }}
+          </div>               
+          <div class="modal-footer" style="text-align:right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- containner -->
+    <div class="container-fluid">
+      <h2><i class="fa fa-users" aria-hidden="true"></i> Contactos</h2>  
+      <table class="table table-hover">
+        <thead>
+        <tr>
+            <th style="width: 1%;">                  
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#findModal"><i class="fa fa-search-plus" aria-hidden="true"></i> Busqueda</button>   
+            </th>       
+            <th style="width: 1%;">               
+               <a href="{{ path('contactos_index', { 'page': 1 }) }}" class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Ver todos</a>  
+            </th>         
+            <th style="width: 1%;">                  
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal"><i class="fa fa-plus" aria-hidden="true"></i> Crear Nuevo</button>   
+            </th>
+
+            <th style="width: 1%;"> 
+                <a href="{{ path('contactos_exportarExcel',{parametros: parametros}) }}" class="btn btn-success"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel</a>
+            </th>
+            <th colspan="10">&nbsp;
+            </th>
+          </tr>
+        </thead>
+        </table>                
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Empresa / Razón Social</th>
+            <th>Nit</th>
+            <th>Código</th>
+            <th>Representante Legal</th>
+            <th>Representante Legal Email</th>
+            <th>Representante Legal Teléfono</th>
+            <th>Nombre Contacto</th>
+            <th>Rol</th>
+            <th>Ciudad</th>
+            <th><i class="fa fa-envelope-square" aria-hidden="true"></i> Email</th>
+            <th><i class="fa fa-phone-square" aria-hidden="true"></i> Telefono</th>
+            <th><i class="fa fa-mobile" aria-hidden="true"></i> Movil</th>
+            <th>Área</th>
+            <th>Convenio</th>
+            <th>Fecha inicio</th>
+            <th>Fecha final</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% set iniciaResultados = page * cantidadPorPagina  %}
+        {% set counter = (iniciaResultados + 1)  %}
+          
+        {% for resultArray in resultset %}
+
+          <tr>
+            <td>{{ counter }}</td>
+            <td>{{ resultArray.idProveedor.nombre }}</td>
+            <td>{{ resultArray.idProveedor.nit }}</td>
+            <td>{{ resultArray.idProveedor.codigo }}</td>
+            <td>{{ resultArray.idProveedor.representanteLegal }}</td>
+            <td>{{ resultArray.idProveedor.emailRepresentanteLegal }}</td>
+            <td>{{ resultArray.idProveedor.telefonoRepresentanteLegal }}</td>
+            <td>{{ resultArray.nombreContacto }}</td>
+            <td>{{ resultArray.idCargo.nombre }}</td>
+            <td>{{ resultArray.ciudad }}</td>
+            <td>{{ resultArray.email }}</td>
+            <td>{{ resultArray.telefono }}</td>
+            <td>{{ resultArray.movil }}</td>
+            <td>{{ resultArray.idArea.nombre }}</td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                <span class="text-danger">Activo</span>
+              {% else %}
+                Inactivo
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                {{resultArray.idProveedor.fechaInicio|date('Y-m-d')}}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td class="text-center">
+              {% if resultArray.idProveedor.convenio == 1 %}
+                {{resultArray.idProveedor.fechaFin|date('Y-m-d')}}
+              {% else %}
+                -
+              {% endif %}
+
+            </td>
+            <td style="text-align: center; min-width: 160px;">                
+                        <a class="btn btn-default" href="{{ path('contactos_edit', { 'id': resultArray.id }) }}">Editar</a>&nbsp;                     
+                        <a class="btn btn-default" onClick="confirmdelete('{{ resultArray.NombreContacto }}','{{ path('contactos_delete', { 'id': resultArray.id }) }}')">Eliminar</a>
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        {% set counter = counter + 1 %}
+        {% endfor %}  
+            <tr>
+                <td colspan="7">
+                    <div class="paginacion">
+                        {{ knp_pagination_render(resultset) }}
+                    </div>
+                </td>
+            </tr>       
+        </tbody>
+      </table>
+    </div>
+    <script>
+    $('#activacionConvenio').datetimepicker({
+      format:'YYYY-MM-DD',
+      locale:'es'
+    });
+        function confirmdelete(uservar, delvar){            
+            swal({
+              title: "Eliminar",
+              text: "¿Realmente desea eliminar a: " + uservar + "?",
+              type: "error",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar",
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "Eliminar",
+              closeOnConfirm: false
+            },
+            function(){           
+              window.location.href=delvar;
+            });
+        }
+    </script>
+{% endblock %}
+

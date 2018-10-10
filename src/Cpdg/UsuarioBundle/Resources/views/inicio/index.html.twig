@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}   
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}    
+{% endblock %}
+{% block body %}
+<div class="col-xs-1 col-sm-1 col-md-2 col-lg-3">&nbsp;</div>
+<div class="container col-xs-10 col-sm-10 col-md-8 col-lg-6" style="margin: 0px auto; text-align: center;">    
+    <img src="{{ asset('images/logo-coopidrogas.png') }}">
+    <h3>Contactos Proveedores Nacionales</h3>
+    <h5>Por favor seleccione la opción a la que desea ingresar</h5>
+    <p>&nbsp;</p>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"> 
+        <a class="btn btn-primary btn-lg" href="{{ path('contactosusr_departamento', { 'page': 1, 'ordervar': 'p.nombre',  'ordervaro': 'asc'}) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos {{ app.user.idArea.nombre }} <i class="fa fa-reply" aria-hidden="true"></i></a>
+        <p>&nbsp;</p> 
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+    <a class="btn btn-primary btn-lg" href="{{ path('contactosusr_index', { 'page': 1,'ordervar': 'p.nombre',  'ordervaro': 'asc' }) }}"><i class="fa fa-users" aria-hidden="true"></i> Todos los Contactos <i class="fa fa-reply-all" aria-hidden="true"></i></a>
+    </div>
+
+    </div>
+
+</div> 
+{% endblock %}

@@ -1,0 +1,24 @@
+cpdg_administrador_administrador:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/administrador.yml"
+    prefix:   /administrador
+cpdg_administrador_inicio:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/inicio.yml"
+    prefix:   /
+cpdg_administrador_usuarios:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/usuario.yml"
+    prefix:   /usuario
+cpdg_administrador_proveedores:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/proveedores.yml"
+    prefix:   /proveedores
+cpdg_administrador_contactos:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/contactos.yml"
+    prefix:   /contactos
+cpdg_administrador_areas:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/areas.yml"
+    prefix:   /areas
+cpdg_administrador_cargos:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/cargos.yml"
+    prefix:   /cargos
+cpdg_administrador_logs:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing/logs.yml"
+    prefix:   /logs

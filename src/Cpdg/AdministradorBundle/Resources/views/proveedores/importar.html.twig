@@ -1,0 +1,68 @@
+
+    {% block javascripts %}
+         {% include 'CpdgAdministradorBundle:proveedores:importar.js.twig' ignore missing %}
+    {% endblock javascripts %}
+    {% block contenido -%}
+        <div class="grid "> 
+            <div>
+                <p class='panel-box panel-box-primary'>
+                    <span class="text-success"><strong>Recuerde: </strong></span>
+                    <span class='text-primary'>
+                        Esta operación actualiza los cargos utilizados por los proveedores con la información que se encuentre en el archivo CSV. La información debe estar bien digitada.<br>
+                    </span>
+                </p>
+                <p>La estructura del archivo CSV es la siguiente:</p>
+                <code>NIT; CÓDIGO COOPIDROGAS ; CÓDIGO DEL CARGO ; </code>
+                <br><br>
+                <p>Pulse <span class="h4"><a class="text-danger" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">AQUÍ</a></span> para ver los codigos correspondientes a los cargos registrados</p>
+
+                <div class="collapse" id="collapseExample">
+                  <div class="well">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="col-md-2">Código</div>
+                                <div class="col-md-4">Cargo</div>
+                                <div class="col-md-2">Código</div>
+                                <div class="col-md-4">Cargo</div>
+                            </div>
+                        {%for cargo in cargos%}
+                            <div class="col-md-6">
+                                <div class="col-md-2">{{cargo.id}}</div>
+                                <div class="col-md-10">{{cargo.nombre}}</div>
+                            </div>
+                        {%endfor%}
+                            
+                        </div>
+                        
+                  </div>
+                </div>
+                
+                <form class='form data-margin' id='formPedidos' action='#' method='POST' enctype='multipart/form-data'>
+                    <div class="margin  text-center">
+                        
+                        <div class="col-md-10">
+                            <input type='file' class="form-control" name='file' id='file' required>
+                        </div>
+                        <div class="text-left">
+                            <button class="btn btn-danger btn-mini" type="button" title='Eliminar archivo seleccionado' id='delete'><i class="fa fa-trash-o"  ></i></button>
+                        </div>
+                        <br><br><br>
+                         <button class="button btn btn-primary" type="submit"><i class="fa fa-upload"></i> CARGAR</button>
+                         
+                    </div> 
+                </form>
+            </div>
+            <div id="cargando" class="text-center"></div>
+
+        </div>  
+        <div id='resultado' class='' >
+            <div class="panel panel-primary" style="overflow:auto;max-height:200px;">
+                <div class="panel-body">
+                    <div class='col-md-6 ' id='actualizado'></div>
+                    <div class='col-md-6 ' id='excepcion'></div>
+                </div>
+            </div>
+
+        </div> 
+     {% endblock %}

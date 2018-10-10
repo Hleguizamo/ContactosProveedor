@@ -1,0 +1,54 @@
+contactosusr_index:
+    path:     /page/{page}/ordervar/{ordervar}/ordervaro/{ordervaro}
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:index" }
+    methods:  [GET, POST]
+contactosusr_departamento:
+    path:     /departamento/page/{page}/ordervar/{ordervar}/ordervaro/{ordervaro}
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:departamento" }
+    methods:  [GET, POST]
+contactosusr_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:show" }
+    methods:  GET
+
+contactosusr_new:
+    path:     /new
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:new" }
+    methods:  [GET, POST]
+contactosusr_newfromdepartamento:
+    path:     /newfromdepartamento
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:newfromdepartamento" }
+    methods:  [GET, POST]
+contactosusr_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:edit" }
+    methods:  [GET, POST]
+contactosusr_editfromdepartamento:
+    path:     /{id}/editfromdepartamento
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:editfromdepartamento" }
+    methods:  [GET, POST]
+
+contactosusr_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:delete" }
+    methods:  [GET, POST]
+contactosusr_deletefromdepartamento:
+    path:     /{id}/deletefromdepartamento
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:deletefromdepartamento" }
+    methods:  [GET, POST]
+contactosusr_exportarExcel:
+    path:     /exportarExcel
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:exportarExcel" }
+    methods:  [GET, POST]
+contactosusr_exportarExcelTodos:
+    path:     /exportarExcelTodos
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:exportarExcelTodos" }
+    methods:  [GET, POST]
+contactosusr_downloadExcel:
+    path:     /downloadExcel
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:downloadExcel" }
+    methods:  [GET, POST]
+contactosusr_loadFile:
+    path:     /loadFile
+    defaults: { _controller: "CpdgUsuarioBundle:Contactos:loadFile" }
+    methods:  [GET, POST]

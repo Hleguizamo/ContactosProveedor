@@ -1,0 +1,532 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <script type="text/javascript" src="{{ asset('js/jquery.form.js') }}"></script>
+  <style type="text/css">
+
+  .mouseOverHand{cursor: pointer; cursor: hand;}
+
+  </style>
+
+    <div class="modal fade" id="myModalExportar" tabindex="-1" role="dialog" aria-labelledby="myModalLabelExportar">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabelExportar">Modal title</h4>
+          </div>
+          <div class="modal-body" id='modalExportar'>
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal New -->
+    <div id="newModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal New -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ingresar nuevo</h4>
+          </div>
+          <div class="modal-body">
+                {{ form_start(formNew, {'action':'new', 'attr': {'onsubmit':'return validar();'}}) }}
+
+                  <ul class="nav nav-tabs" role="tablist">
+                      <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Informacion del Proveedor</a></li>
+
+                      <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Asignacion de Cargos</a></li>
+
+                  </ul>
+                  <div class="tab-content">
+                      <div role="tabpanel" class="tab-pane active" id="home">
+
+                          {{ form_label(formNew.nit) }}
+                          {{ form_errors(formNew.nit) }}
+                          {{ form_widget(formNew.nit) }}
+
+                          {{ form_label(formNew.nombre) }}
+                          {{ form_errors(formNew.nombre) }}
+                          {{ form_widget(formNew.nombre) }}
+
+                          {{ form_label(formNew.codigo) }}
+                          {{ form_errors(formNew.codigo) }}
+                          {{ form_widget(formNew.codigo) }}
+
+
+                          {{ form_label(formNew.representanteLegal) }}
+                          {{ form_errors(formNew.representanteLegal) }}
+                          {{ form_widget(formNew.representanteLegal) }}
+
+                          {{ form_label(formNew.emailRepresentanteLegal) }}
+                          {{ form_errors(formNew.emailRepresentanteLegal) }}
+                          {{ form_widget(formNew.emailRepresentanteLegal) }}
+
+                          {{ form_label(formNew.telefonoRepresentanteLegal) }}
+                          {{ form_errors(formNew.telefonoRepresentanteLegal) }}
+                          {{ form_widget(formNew.telefonoRepresentanteLegal) }}
+
+                          
+                          <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 {% if admin.convenio != 1 %}hidden{% endif %} ">
+
+                                {{ form_label(formNew.convenio) }}
+                                {{ form_errors(formNew.convenio) }}
+                                {{ form_widget(formNew.convenio) }}
+
+                                <div class="row">
+                                  <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" id="showHideDate">
+
+                                    {{ form_label(formNew.fechaInicio) }}
+                                    {{ form_errors(formNew.fechaInicio) }}
+                                    <div class="form-group">
+                                      <div class='input-group date datetimepicker' >
+                                          {{ form_widget(formNew.fechaInicio) }}
+                                          <span class="input-group-addon">
+                                              <span class="glyphicon glyphicon-calendar"></span>
+                                          </span>
+                                      </div>
+                                    </div>
+
+                                    {{ form_label(formNew.fechaFin) }}
+                                    {{ form_errors(formNew.fechaFin) }}
+                                    <div class="form-group">
+                                      <div class='input-group date datetimepicker'>
+                                          {{ form_widget(formNew.fechaFin) }}
+                                          <span class="input-group-addon">
+                                              <span class="glyphicon glyphicon-calendar"></span>
+                                          </span>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                        
+                      </div>
+
+                      <div role="tabpanel" class="tab-pane" id="profile">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="col-md-12"><label class="control-label">Asignacion de Cargos</label></div>
+
+                              {%for cargo in cargos%}
+                                <div class="col-md-6"><input type="checkbox" class="checkCargos" name="cargo[{{cargo.id}}]" id="cargo[{{cargo.id}}]" value="{{cargo.id}}">{{cargo.nombre}}</div>
+                              {%endfor%}
+                            </div>
+                            
+                          </div>
+                      </div>
+                      
+                  </div>
+
+                    {#{ form_widget(formNew) }#}
+                    <input type="submit" class="btn btn-primary" value="Ingresar nuevo"></input>
+                {{ form_end(formNew) }}
+          </div>
+          <div class="modal-footer" style="text-align: right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal find -->
+    <div id="findModal" class="modal fade" role="dialog">
+
+      <div class="modal-dialog">
+
+        <!-- Modal find -->
+        <div class="modal-content">
+
+          <div class="modal-header">
+
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-search-plus" aria-hidden="true"></i>Buscar</h4>
+
+          </div>
+
+          <form name="proveedores" method="post" action="">
+
+            <div id="proveedores" style="padding: 10px;">
+              
+              <div class="form-group">
+                <label class="control-label" for="proveedores_nit">Nit</label>
+                <input type="text" id="proveedores_nit" name="proveedores[nit]" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="proveedores_nombre">Nombre</label>
+                <input type="text" id="proveedores_nombre" name="proveedores[nombre]" maxlength="256" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="proveedores_codigo">Codigo</label>
+                <input type="text" id="proveedores_codigo" name="proveedores[codigo]" maxlength="32" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="proveedores_representanteLegal">Representante legal</label>
+                <input type="text" id="proveedores_representanteLegal" name="proveedores[representanteLegal]" maxlength="255" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label" for="proveedores_emailRepresentanteLegal">Email representante legal</label>
+                <input type="text" id="proveedores_emailRepresentanteLegal" name="proveedores[emailRepresentanteLegal]" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label class="control-label required" for="proveedores_telefonoRepresentanteLegal">Telefono representante legal</label>
+                <input type="text" id="proveedores_telefonoRepresentanteLegal" name="proveedores[telefonoRepresentanteLegal]" maxlength="255" class="form-control" />
+              </div>
+
+              <div class="form-group">
+
+                <label class="control-label" for="contactos_find_idProveedor">
+                  Convenio: 
+                </label>
+
+                <select class="form-control" id="convenioSeleccionado" 
+                  name="convenioSeleccionado">
+
+                  <option value="sinSeleccionar" selected="selected"></option>
+                  <option value="1">Activo</option>
+                  <option value="0">Inactivo</option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group">
+                  <label class="control-label" for="contactos_find_idProveedor">Fecha Activacion Convenio: </label>
+                  <div class="form-row">
+                      <div class="col-md-4">
+                        <select class="form-control" id="filtroFecha" name="filtroFecha" style="width: 150px !important;">
+                          <option value=">=">Mayor o Igual A</option>
+                          <option value="<=">Menor o Igual A</option>
+                        </select>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" id="activacionConvenio" name="activacionConvenio" class="date form-control" value="" style="width: 200px !important;">
+                      </div>
+                  </div>
+                  
+              </div>
+
+              <br><br>
+              <input type="hidden" value="true" name="find">
+              <input type="submit" class="btn btn-primary" value="Buscar"></input> 
+
+                <br><br>
+
+            </div>
+                              
+          </form>
+
+          <div class="modal-footer" style="text-align:right;">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- Modal Upload -->
+    <div id="uploadModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal Upload -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Actualizar Lista de proveedores</h4>
+          </div>
+          <div class="modal-body">
+                {{ form_start(formArchivo, {'action': '../loadFile'}) }}
+                    {{ form_widget(formArchivo) }}
+                    <input type="submit" class="btn btn-primary" value="Cargar"></input>
+                {{ form_end(formArchivo) }} 
+          </div>
+          <div class="modal-footer" style="text-align:right;">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- containner -->
+    <div class="container">
+      <h2><i class="fa fa-users" aria-hidden="true"></i> Proveedores</h2>  
+      <table class="table table-hover">
+        <thead>
+        <tr>                              
+            <th style="width: 1%;">                  
+               <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#findModal"><i class="fa fa-search-plus" aria-hidden="true"></i> Busqueda</button>   
+            </th>
+                 
+            <th style="width: 1%;">               
+               <a href="{{ path('proveedores_index', { 'page': 1 }) }}" class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Ver todos</a>  
+            </th> 
+            <th style="width: 1%;">                  
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal" ><i class="fa fa-plus" aria-hidden="true"></i> Crear Nuevo</button>   
+            </th>                
+            <th style="width: 1%;"> 
+                <a href="{{ path('proveedores_exportarExcel',{parametros: parametros}) }}" class="btn btn-success"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Exportar a Excel</a>
+            </th>
+            <th style="width: 1%;"> 
+                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#uploadModal"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Actualizar Contactos desde Excel</a>
+            </th>
+
+            <th style="width: 1%;"> 
+                <a href="{{ path('proveedores_downloadExcel') }}" class="btn btn-success"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Descargar formato Excel</a>
+            </th>    
+
+            <th style="width: 1%;"> 
+                <button class="btn btn-success" id="asignarCargos"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Asignar Cargos a Proveedores</button>
+            </th>                       
+            
+            <th colspan="10">&nbsp;
+            </th>
+          </tr>
+        </thead>
+        </table>                
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Nit</th>
+            <th>Empresa / Razón Social</th>
+            <th>Código</th>
+            <th>Representante Legal</th>
+            <th><i class="fa fa-envelope-square" aria-hidden="true"></i> Email</th>
+            <th><i class="fa fa-phone-square" aria-hidden="true"></i> Telefono</th>
+            <th><i class="" aria-hidden="true"></i> Convenio</th>
+            <th><i class="" aria-hidden="true"></i> Divisiones</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% set iniciaResultados = page * cantidadPorPagina  %}
+        {% set counter = (iniciaResultados + 1)  %}
+        {% for resultArray in resultset %}
+          <tr>
+            <td>{{ counter }}</td>
+            <td>{{ resultArray.nit }}</td>
+            <td>{{ resultArray.nombre }}</td>
+            <td>{{ resultArray.codigo }}</td>
+            <td>{{ resultArray.representanteLegal }}</td>
+            <td>{{ resultArray.emailRepresentanteLegal }}</td>
+            <td>{{ resultArray.telefonoRepresentanteLegal }}</td>
+            <td> {% if resultArray.convenio == 1 %} <span data-toggle="tooltip" class="text-danger mouseOverHand" title=" Fecha inicio: {{resultArray.fechaInicio|date('Y-m-d') }} - fecha finalización: {{resultArray.fechaFin|date('Y-m-d') }}"> Activo </span>  {% else %}Inactivo{% endif %} </td>
+            <td>{{ resultArray.divisiones }}</td>
+            <td style="text-align: center; min-width: 160px;">                
+                        <a class="btn btn-default" href="{{ path('proveedores_edit', { 'id': resultArray.id }) }}">Editar</a>&nbsp;                     
+                        <a class="btn btn-default" onClick="confirmdelete('{{ resultArray.nombre }}','{{ path('proveedores_delete', { 'id': resultArray.id }) }}')">Eliminar</a>
+                    </li>
+                </ul>
+            </td>
+          </tr>
+        {% set counter = counter + 1 %}
+        {% endfor %}  
+            <tr>
+                <td colspan="7">
+                    <div class="paginacion">
+                        {{ knp_pagination_render(resultset) }}
+                    </div>
+                </td>
+            </tr>       
+        </tbody>
+      </table>
+    </div>
+    <script>
+        function confirmdelete(uservar, delvar){          
+            swal({
+              title: "Eliminar",
+              text: "¿Realmente desea eliminar a: " + uservar + "?",
+              type: "error",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar",
+              confirmButtonClass: "btn-danger",
+              confirmButtonText: "Eliminar",
+              closeOnConfirm: false
+            },
+            function(){           
+              window.location.href=delvar;
+            });
+        }
+
+        function validar(){
+          cambiartxt($("#proveedores_representanteLegal").val(), "proveedores_representanteLegal");
+
+          if (validarLargoNombre($("#proveedores_representanteLegal").val()) == false){
+            swal("","El Nombre del Representante Legal debe contener al menos 10 caracteres");
+            $("#proveedores_representanteLegal").focus();
+            return false;
+          }
+          if (validarPalabrasNombre($("#proveedores_representanteLegal").val()) == false){
+            swal("","El Nombre debe contener al menos 2 palabras");
+            $("#proveedores_representanteLegal").focus();
+            return false;
+          }
+          if (isAlphabetic($("#proveedores_representanteLegal").val()) == false){
+            swal("","El Nombre debe contener solo caracteres caracteres alfabeticos, intenta nuevamente");
+            $("#proveedores_representanteLegal").val("");
+            $("#proveedores_representanteLegal").focus();
+            return false;
+          }
+
+          {% if admin.convenio == 1 %}
+
+            if( $('#proveedores_convenio').val() == 1 ){
+
+              var desde = $('#proveedores_fechaInicio').val();
+              var hasta = $('#proveedores_fechaFin').val();
+
+              if( desde == '' || hasta == '' ){
+
+                swal("","La fecha de inicio y finalización del convenio son obligatorias.");
+
+                return false;
+              }
+
+            }//endif
+
+          {% endif %}
+
+
+
+
+          
+          return true;
+        }
+        function validarLargoNombre(valuevar){
+          if(valuevar.length >= 10){
+            return true;
+          }else{
+            return false;
+          }
+        }
+        function validarPalabrasNombre(valuevar){
+          if(valuevar.search(" ") == -1){
+            return false;
+          }else{
+            return true;
+          }
+        }
+        function cambiartxt(valuevar, casevar){
+        var index;
+        var tmpStr;
+        var tmpChar;
+        var preString;
+        var postString;
+        var strlen;
+        tmpStr = valuevar.toLowerCase();
+        strLen = tmpStr.length;
+        if (strLen > 0)
+        {
+        for (index = 0; index < strLen; index++)
+        {
+        if (index == 0)
+        {
+        tmpChar = tmpStr.substring(0,1).toUpperCase();
+        postString = tmpStr.substring(1,strLen);
+        tmpStr = tmpChar + postString;
+        }
+        else
+        {
+        tmpChar = tmpStr.substring(index, index+1);
+        if (tmpChar == " " && index < (strLen-1))
+        {
+        tmpChar = tmpStr.substring(index+1, index+2).toUpperCase();
+        preString = tmpStr.substring(0, index+1);
+        postString = tmpStr.substring(index+2,strLen);
+        tmpStr = preString + tmpChar + postString;
+        }
+        }
+        }
+        }
+        $("#" + casevar).val(tmpStr);
+        }
+        function isAlphabetic(valuevar){
+              if (valuevar.match(/^[a-zA-Z\s]+$/)){
+                return true;
+              }else{
+                return false;
+              }
+        }
+        function isNumberfn(valuevar){
+              if (valuevar.match(/^[0-9\s]+$/)){
+                return true;
+              }else{
+                return false;
+              }
+        }
+
+        
+
+        $().ready(function(){
+
+          $("#asignarCargos").click(function(){
+
+              $('#myModalLabelExportar').empty().html('Asignar Cargos');
+              $('#modalExportar').empty().load( "{{ path('proveedores_cargar_cargo') }}" , function(){
+                  $("#myModalExportar").modal('show');
+              });
+
+          });
+
+          $('[data-toggle="tooltip"]').tooltip(); 
+
+          {% if admin.convenio == 1 %}
+
+            showHideDate( $('#proveedores_convenio').val() );
+
+            $('#proveedores_convenio').change(function(){
+
+              showHideDate( $( this ).val() );
+
+            });
+
+            $('#proveedores_fechaInicio, #proveedores_fechaFin').datetimepicker({
+              format:'YYYY-MM-DD',
+              locale:'es'
+            });
+ 
+            
+            function showHideDate( val ){
+
+              if( val == 1 ){
+                $('#showHideDate').show(1200);
+
+                $('#proveedores_fechaInicio').val('');
+                $('#proveedores_fechaFin').val('');
+
+              }else{
+
+                $('#showHideDate').hide( 1200 );
+              }
+
+            }//end function
+            
+          {% endif %}
+
+
+        });//end ready
+
+        $('#activacionConvenio').datetimepicker({
+          format:'YYYY-MM-DD',
+          locale:'es'
+        });
+
+          
+
+    </script>
+{% endblock %}

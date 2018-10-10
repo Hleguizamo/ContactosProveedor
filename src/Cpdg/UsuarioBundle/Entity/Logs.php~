@@ -1,0 +1,61 @@
+<?php
+
+namespace Cpdg\UsuarioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Logs
+ *
+ * @ORM\Table(name="logs")
+ * @ORM\Entity
+ */
+class Logs
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="tipo_usuario", type="boolean", nullable=false)
+     */
+    private $tipoUsuario = '0';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario", type="string", length=64, nullable=false)
+     */
+    private $usuario;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accion", type="text", length=65535, nullable=false)
+     */
+    private $accion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string", length=24, nullable=false)
+     */
+    private $ip;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     */
+    private $fecha = 'CURRENT_TIMESTAMP';
+
+
+}
+

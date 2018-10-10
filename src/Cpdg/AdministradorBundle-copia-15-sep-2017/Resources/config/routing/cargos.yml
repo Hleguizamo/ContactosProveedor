@@ -1,0 +1,18 @@
+cargos_index:
+    path:     /page/{page}
+    defaults: { _controller: "CpdgAdministradorBundle:Cargos:index" }
+    methods:  [GET, POST]
+cargos_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Cargos:new" }
+    methods:  [GET, POST]
+
+cargos_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Cargos:edit" }
+    methods:  [GET, POST]
+
+cargos_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Cargos:delete" }
+    methods:  [GET, POST]

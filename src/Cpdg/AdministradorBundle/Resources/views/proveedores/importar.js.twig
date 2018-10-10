@@ -1,0 +1,60 @@
+<script type="text/javascript">
+	$().ready(function(){
+		$('#resultado').hide();
+		$('#formPedidos').submit(function(){
+			if($('#archivo').val()!=''){
+				var file = $('#file').val();
+		        var extencion = file.substring(file.lastIndexOf('.')).toLowerCase();
+		        if(extencion == '.csv'|| extencion=='.CSV'){
+		             //noty({layout:'center',text:'La operación puede tardar varios minutos, por favor espere...<br><center><i class="icon-refresh icon-spin icon-large"></i></center>',modal:true,type:'alert',timeout:false,closeWith:['none']}); 
+		             $("#cargando").html("Cargando <i class='fa fa-refresh fa-spin fa-2x fa-fw text-success'></i>");
+
+		            var options = {
+		                    target: '#formPedidos', 
+		                    url: "{{ path('proveedores_asignar_cargo_csv') }}",
+		                    type: 'post',
+		                    data: $('#formPedidos').serialize(),
+		                    dataType: 'json',
+		                    success:function(data){
+		                    	$("#cargando").html("");
+
+		                    	$('#resultado').show();
+		                        $('#actualizado').html('<span class="text-success text-small">'+ data.actualizado+'</span>');
+		                       
+		                        $('#excepcion').html('<span class="text-danger text-small">'+data.excepciones+'</span>');
+
+		                        //$.noty.closeAll();
+		                        //reloadGrid();
+		                        //AlertaPersonalizable('Solicitud procesada correctamente',850,'information');  
+		                    },
+		                    error:function(){
+		                    	$("#cargando").html("");
+		                    	swal('Se produjo un error al intentar actualizar, intente de nuevo.');
+		                        //$.noty.closeAll();
+		                        //MensajeConfirmacionError('Se produjo un error al intentar actualizar, intente de nuevo.');
+		                    }
+		                };
+		   
+		                $(this).ajaxSubmit(options);
+
+		        }else{
+		            //MensajeConfirmacionError('Solo se permiten archivos con extencion .csv');
+		            $('#file').val('');
+		        }
+			}else{
+				//MensajeConfirmacion('Por favor seleccione un archivo');
+				$(this).focus();
+			}
+			return false;
+		});
+		$('#delete').click(function(){
+			$('#file').val('');
+		});
+		//DESCARGA DE PLANTILLA.
+     
+    {# $('#downloadPlantilla').click(function(){
+        window.open('{{path("proveedor_pedidos_realizados_plan")}}');
+    }); #}
+    
+	});
+</script>

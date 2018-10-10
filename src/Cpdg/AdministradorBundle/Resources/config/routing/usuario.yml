@@ -1,0 +1,29 @@
+usuario_index:
+    path:     /page/{page}
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:index", page: 1 }
+    methods:  [GET, POST]
+
+usuario_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:show" }
+    methods:  GET
+
+usuario_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:new" }
+    methods:  [GET, POST]
+
+usuario_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:edit" }
+    methods:  [GET, POST]
+
+usuario_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:delete" }
+    methods:  [GET, POST, DELETE]
+
+usuario_update_estado:
+    path:     /update_estado
+    defaults: { _controller: "CpdgAdministradorBundle:Usuario:updateEstado" }
+    methods:  [POST]

@@ -1,0 +1,8 @@
+
+cpdg_usuario:
+    resource: "@CpdgUsuarioBundle/Resources/config/routing.yml"
+    prefix:   /
+
+cpdg_administrador:
+    resource: "@CpdgAdministradorBundle/Resources/config/routing.yml"
+    prefix:   /administrador

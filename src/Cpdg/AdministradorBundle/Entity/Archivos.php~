@@ -1,0 +1,40 @@
+<?php
+
+namespace Cpdg\AdministradorBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Archivos
+ *
+ * @ORM\Table(name="archivos")
+ * @ORM\Entity
+ */
+class Archivos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     */
+    private $fecha;
+
+
+}
+

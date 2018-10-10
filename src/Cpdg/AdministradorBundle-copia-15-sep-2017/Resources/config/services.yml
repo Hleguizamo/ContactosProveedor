@@ -1,0 +1,10 @@
+parameters:
+  administrador.login_success_handler.class: Cpdg\AdministradorBundle\Listener\LoginListener
+services:
+#    cpdg_administrador.example:
+#        class: Cpdg\AdministradorBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+  administrador.login_success_handler.class:
+    class: %administrador.login_success_handler.class%
+    public: false
+    arguments:  ['@service_container']

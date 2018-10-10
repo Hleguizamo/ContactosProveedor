@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}   
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}    
+{% endblock %}
+{% block body %}
+<div class="col-xs-1 col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
+<div class="container col-xs-10 col-sm-8 col-md-6 col-lg-4" style="margin: 0px auto;">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="background: #ffffff">
+            <div class="panel-title"><img class="img-responsive" src="{{ asset('images/logo-coopidrogas.png') }}"></div>                        
+        </div>
+        <div class="panel-footer">
+            <div class="panel-title" style="text-align: center;"><strong>ADMINISTRADOR DE LA APLICACIÓN</strong><br><div style="font-size: 12px;">Contactos Proveedores Nacionales</div></div>                        
+        </div>
+        <div style="padding-top:30px" class="panel-body" >  
+            <form method="POST" action="{{ path('administrador_inicio_login_check') }}" id="autenticarForm" autocomplete="off">
+            <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+               <input type="text" placeholder="Usuario" required name="_username" id="usuario" class="form-control" style="height:32px;" autocomplete="off">                                    
+            </div>
+            <div style="margin-bottom: 25px" class="input-group">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                 <input type="password" placeholder="Contraseña" required value="" name="_password" id="clave" class="form-control" style="height:32px;" autocomplete="off">
+            </div>
+            <div class="form-group">               
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-check"></i> Ingresar al sistema
+                </button>
+            </div>
+            </form> 
+            </div>
+            <div class="panel-footer">
+            <div style="text-align: center;" style="font-size: 10px;">Si no puede ingresar envíe un correo a soporte@copidrogas.com</div>                        
+        </div>       
+    </div>
+</div>
+{% endblock %}

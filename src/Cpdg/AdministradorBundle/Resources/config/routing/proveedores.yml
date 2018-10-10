@@ -1,0 +1,48 @@
+proveedores_index:
+    path:     /page/{page}
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:index","page":1 }
+    methods:  [GET, POST]
+
+proveedores_show:
+    path:     /{id}/show
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:show" }
+    methods:  GET
+
+proveedores_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:new" }
+    methods:  [GET, POST]
+
+proveedores_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:edit" }
+    methods:  [GET, POST]
+
+proveedores_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:delete" }
+    methods:  [GET, POST]
+proveedores_exportarExcel:
+    path:     /exportarExcel
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:exportarExcel" }
+    methods:  [GET, POST]
+proveedores_downloadExcel:
+    path:     /downloadExcel
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:downloadExcel" }
+    methods:  [GET, POST]
+proveedores_loadFile:
+    path:     /loadFile
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:loadFile" }
+    methods:  [GET, POST]
+
+proveedores_asignar_cargo:
+    path:     /asignar_cargo
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:asignarCargo" }
+
+proveedores_cargar_cargo:
+    path:     /cargar_cargo
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:cargarCargo" }
+
+proveedores_asignar_cargo_csv:
+    path:     /asignar_cargo_csv
+    defaults: { _controller: "CpdgAdministradorBundle:Proveedores:asignarCargoCsv" }

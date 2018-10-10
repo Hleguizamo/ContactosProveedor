@@ -1,0 +1,87 @@
+security:
+    encoders:
+        administrador:
+            class: Cpdr\AdministradorBundle\Entity\Administrador
+            algorithm: plaintext
+        usuario:
+            class: Cpdr\UsuarioBundle\Entity\Usuario
+            algorithm: plaintext
+        
+    providers:
+        administrador:
+            entity: 
+                class: Cpdr\AdministradorBundle\Entity\Administrador
+                property: usuario
+        usuario:
+            entity:
+                class: Cpdr\UsuarioBundle\Entity\Usuario
+                property: usuario
+
+    firewalls:
+        administrador_login:
+             pattern:  ^/administrador/default/login$
+             security: false
+
+        administrador_login_error:
+             pattern:  ^/administrador/default/loginError/*
+             security: false
+
+        administrador_secured_area:
+            pattern:    ^/administrador/
+            provider: administrador
+            form_login:
+                check_path: /administrador/default/login_check
+                login_path: /administrador/default/login
+                default_target_path: /administrador/default/
+                always_use_default_target_path: true
+                success_handler: administrador.login_success_handler.class
+                failure_handler: administrador.login_success_handler.class     
+            logout:
+                path:   administrador_default_logout
+                target: /administrador
+                invalidate_session: false
+                success_handler: ~ 
+
+        usuario_login:
+             pattern:  ^/default/login$
+             security: false
+
+        usuario_login_error:
+            pattern:  ^/default/loginError/*
+            security: false
+
+        usuario_secured_area:
+            pattern:    ^/
+            provider: usuario
+            form_login:
+                check_path: /default/login_check
+                login_path: /default/login
+                default_target_path: /default/
+                always_use_default_target_path: true
+                success_handler: usuario.login_success_handler.class
+                failure_handler: usuario.login_success_handler.class     
+            logout:
+                path:   usuario_default_logout
+                target: /
+                invalidate_session: false
+                success_handler: ~
+
+    access_control:
+        administrador_login:
+            path: /administrador/default/login
+            roles: IS_AUTHENTICATED_ANONYMOUSLY        
+        administrador_login_check:
+            path: /administrador/default/login_check
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        administrador_area:
+            path: /administrador/.*
+            roles: [ROLE_ADMINISTRADOR]
+        usuario_login:
+            path: /default/login
+            roles: IS_AUTHENTICATED_ANONYMOUSLY        
+        usuario_login_check:
+            path: /default/login_check
+            roles: IS_AUTHENTICATED_ANONYMOUSLY
+        usuario_area:
+            path: /.*
+            roles: [ROLE_USUARIO]

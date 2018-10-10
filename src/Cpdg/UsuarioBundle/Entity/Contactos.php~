@@ -1,0 +1,98 @@
+<?php
+
+namespace Cpdg\UsuarioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Contactos
+ *
+ * @ORM\Table(name="contactos", indexes={@ORM\Index(name="id_proveedor", columns={"id_proveedor"}), @ORM\Index(name="id_cargo", columns={"id_cargo"}), @ORM\Index(name="id_area", columns={"id_area"})})
+ * @ORM\Entity
+ */
+class Contactos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre_contacto", type="string", length=255, nullable=false)
+     */
+    private $nombreContacto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ciudad", type="string", length=255, nullable=false)
+     */
+    private $ciudad;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=255, nullable=false)
+     */
+    private $telefono;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="movil", type="string", length=255, nullable=false)
+     */
+    private $movil;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_creacion", type="datetime", nullable=false)
+     */
+    private $fechaCreacion = 'CURRENT_TIMESTAMP';
+
+    /**
+     * @var \Proveedores
+     *
+     * @ORM\ManyToOne(targetEntity="Proveedores")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_proveedor", referencedColumnName="id")
+     * })
+     */
+    private $idProveedor;
+
+    /**
+     * @var \Cargos
+     *
+     * @ORM\ManyToOne(targetEntity="Cargos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_cargo", referencedColumnName="id")
+     * })
+     */
+    private $idCargo;
+
+    /**
+     * @var \Areas
+     *
+     * @ORM\ManyToOne(targetEntity="Areas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_area", referencedColumnName="id")
+     * })
+     */
+    private $idArea;
+
+
+}
+

@@ -1,0 +1,18 @@
+administrador_inicio:
+    pattern:  /
+    defaults: { _controller: "CpdgAdministradorBundle:Inicio:index" }
+administrador_inicio_login_error:
+    pattern:  /loginError
+    defaults: { _controller: "CpdgAdministradorBundle:Inicio:loginError" }
+    methods:  [GET, POST]
+administrador_inicio_login:
+    pattern:  /login
+    defaults: { _controller: "CpdgAdministradorBundle:Inicio:login" }
+administrador_inicio_login_check:
+    pattern: /login_check
+administrador_inicio_logout:
+    pattern: /logout
+    defaults: { _controller: "CpdgAdministradorBundle:Inicio:logout" }
+administrador_inicio_logoutbridge:
+    pattern: /logoutBridge
+    defaults: { _controller: "CpdgAdministradorBundle:Inicio:logoutBridge" }

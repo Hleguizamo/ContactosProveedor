@@ -1,0 +1,202 @@
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+
+
+			{% if transaccionSipProveedores['estado'] == 'consultado' %}
+
+				{% if transaccionSipProveedores['proveedor']  %}
+
+					<div class="alert alert-success">
+				
+					  <strong>Atención</strong> Tenga en cuenta que los datos de convenio, para el proveedor 
+					  <i>{{transaccionSipProveedores['proveedor'].razonSocial}}</i> ,  serán editados en <strong>SIP Proveedores.</strong> </strong> 
+
+					</div>
+
+				{% else %}
+
+					<div class="alert alert-warning">
+				
+					  <strong>Atención</strong> No se ha podido recuperar información del Proveedor  en SIP Proveedores.<br>
+					  Por esta razón la información de convenio que registre se visualizara en ésta aplicación pero no podrá ser visualizada en SIP Proveedores. 
+
+					</div>
+
+				{% endif %}
+
+			{% else %}
+
+				<div class="alert alert-danger">
+
+				  <strong>Atención</strong> Se ha producido un error al tratar de recuperar la información del Proveedor registrada en SIP Proveedores.<br>
+				  <strong>Reporte el detalle del error: </strong> {{transaccionSipProveedores['proveedor']}}
+
+				</div>
+
+			{% endif %}
+
+
+		</div>
+	</div>
+
+	{% if transaccionSipProveedores['estado'] == 'consultado' %}
+
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+
+				<form id="frmConvenio" role="form" method="post" action="{{path('proveedoresusr_update',{id:proveedor.id} )}}">
+
+					<div class="row"> 
+						<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+							<select name="estadoConvenio" id="estadoConvenio" class="form-control">
+								<option value = "1"{% if proveedor.convenio == 1 %}selected{% endif %}>Activo</option>
+								<option value = "0"{% if proveedor.convenio == 0 or proveedor.convenio is null %}selected{% endif %}>Inactivo</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row" style="margin-top:15px;" id="showHideDate"> 
+						<div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+
+							<div class="input-group date" data-provide="datepicker">
+
+							    <input type="text" name="desde" class="form-control" id="desde"   
+							    {% if proveedor.convenio %}value="{{proveedor.fechaInicio |date('Y-m-d')}}"{% endif %}>
+
+							    <div class="input-group-addon">
+							        <span class="glyphicon glyphicon-th"></span>
+							    </div>
+
+							</div>
+
+						</div>
+						<div class="col-md-6 col-sm-6 col-lg-6 col-xs-6">
+
+							<div class="input-group date" data-provide="datepicker">
+
+							    <input type="text" name="hasta" class="form-control" id="hasta"  
+							    {% if proveedor.convenio %}value="{{proveedor.fechaFin |date('Y-m-d')}}"{% endif %}>
+
+							    <div class="input-group-addon">
+							        <span class="glyphicon glyphicon-th"></span>
+							    </div>
+
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row" style="margin-top:15px;" id="showHideDate"> 
+						<div class="col-md-12 col-sm-12 col-lg-12 col-xs-12 text-center">
+
+							<button class="btn btn-primary" type="button" id="guardarConvenio"> <i class="fa fa-icon-save"></i> GUARDAR</button>
+
+							{% if transaccionSipProveedores['proveedor']   %}
+								{% set actualizarEnSipProveedores = 1  %}
+								<input type="hidden" name="idEnSipProveedores" value="{{transaccionSipProveedores['proveedor'].id}}">
+							{% else %}
+								{% set actualizarEnSipProveedores = 0  %}
+							{% endif %}
+
+							<!-- campos hidden -->
+							<input type="hidden" name="actualizarEnSipProveedores" value="{{actualizarEnSipProveedores}}">
+
+
+						</div>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+
+	{% endif %}
+
+</div>
+
+<script type="text/javascript">
+
+$().ready(function(){
+
+	showHideDate( '{{proveedor.convenio}}' );
+
+  $('#estadoConvenio').change(function(){
+
+      showHideDate( $( this ).val() );
+
+  });
+
+	$('#desde, #hasta').datetimepicker({
+		format:'YYYY-MM-DD',
+		locale:'es'
+	});
+
+	$('#guardarConvenio').click(function(){
+
+		if ( verificarDatos() ){
+
+			$('#frmConvenio').submit();
+
+		}
+		return false;
+
+	});
+
+});
+
+function verificarDatos () {
+
+  var  estadoConvenio = $('#estadoConvenio');
+  var  desde = $('#desde');
+  var  hasta = $('#hasta');
+  var  pasoComprobacion = true;
+ 
+  if (estadoConvenio.val() == 1) {
+
+  	if((desde.val() == '') || (hasta.val() == '')) {
+
+  		 swal({
+        title: "Atención",
+        text: "Debe indicar un rango de fecha cuando el convenio esta activo.",
+        type: "warning",
+        showCancelButton: false,
+        confirmButtonClass: "btn-default",
+        confirmButtonText: "Entendido",
+        closeOnConfirm: true
+      });
+
+  		pasoComprobacion = false;
+
+  	}
+
+  } else {
+
+  	desde.val('');
+		hasta.val('');
+
+  }
+
+  return pasoComprobacion;
+
+}
+
+function showHideDate( val ){
+
+  if(val == 1){
+
+    $('#showHideDate').show(1200);
+
+  }else{
+
+    $('#showHideDate').hide( 1200 );
+    $('#desde').val('');
+  	$('#hasta').val('');
+
+  }
+
+
+}//end fincion
+
+</script>

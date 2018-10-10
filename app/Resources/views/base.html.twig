@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Contactos Proveedores Nacionales{% endblock %}</title>       
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">        
+        
+        <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+         
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}"> 
+  
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/coopidrogas.css') }}">        
+
+        <link rel="stylesheet" href="{{ asset('css/sweet-alert.css') }}">  
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-switch.min.css') }}">
+        
+        <script type="text/javascript" src="{{ asset('js/jquery-2.1.0.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/moment.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('js/locale/es.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script> 
+
+        <script src="{{ asset('js/sweet-alert.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js') }}"></script> 
+
+        <script src="{{ asset('js/bootstrap-switch.min.js') }}"></script>
+
+        <script type='text/javascript'>//<![CDATA[
+        $(window).load(function(){    
+            $(document).ready(function () {
+                $("nav").find("li").on("click", "a", function () {
+                    $('.navbar-collapse.in').collapse('hide');
+                });
+            });
+        });//]]> 
+        </script>
+        
+    </head>
+    <body>
+        {% block header %}
+            {% if app.user and is_granted('ROLE_USER') %}
+                <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                            </button>
+                        <div>
+                        <div style="position: relative; top:-5px; float: left;"><a class="navbar-brand" href="#"><img src="{{ asset('images/logo-coopidrogas-peq.png') }}"></a></div>
+                        <div style="position: relative; float: left;"><a class="navbar-brand" href="#">{{ app.user.nombre }}</a></div>
+                        <div style="clear: both;"></div>
+                        </div>
+
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="active"><a href="{{ path('usuario_inicio') }}"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a></li>
+                                <li>
+                                <a href="{{ path('contactosusr_departamento', { 'page': 1, 'ordervar': 'p.nombre',  'ordervaro': 'asc'}) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos Departamento {{ app.user.idArea.nombre }} <i class="fa fa-reply" aria-hidden="true"></i></a></li>
+                                <li><a href="{{ path('contactosusr_index', { 'page': 1, 'ordervar': 'p.nombre',  'ordervaro': 'asc' }) }}"><i class="fa fa-users" aria-hidden="true"></i> Todos los Contactos</a></li>
+                                <li><a href="{{ path('proveedoresusr_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Proveedores</a></li>
+                                <li><a href="{{ path('usuariousr_edit', { 'id': app.user.id }) }}"><i class="fa fa-lock" aria-hidden="true"></i> Cambiar datos Usuario</i></a></li>
+                                <li><a href="{{ path('usuario_inicio_logoutbridge') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir</a></li> 
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            {% elseif app.user and is_granted('ROLE_ADMINISTRATOR') %}
+                {% set superAdmin = app.user.superadmin %}
+                {% if superAdmin == 1 %}
+                <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                            </button>
+                        <div>
+                        <div style="position: relative; top:-5px; float: left;"><a class="navbar-brand" href="#"><img src="{{ asset('images/logo-coopidrogas-peq.png') }}"></a></div>
+                        <div style="position: relative; float: left;"><a class="navbar-brand" href="#">{{ app.user.nombre }}</a></div>
+                        <div style="clear: both;"></div>
+                        </div>
+
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="active"><a href="{{ path('administrador_inicio') }}"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a></li>
+                                <li><a href="{{ path('administrador_index', { 'page': 1 }) }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Administradores</a></li>
+                                <li><a href="{{ path('usuario_index', { 'page': 1 }) }}"><i class="fa fa-user" aria-hidden="true"></i> Usuarios del sistema</a></li>
+                                <li><a href="{{ path('proveedores_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Proveedores</a></li>
+
+                                <li><a href="{{ path('contactos_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos</a></li> 
+                               
+                                <li><a href="{{ path('areas_index', { 'page': 1 }) }}"><i class="fa fa-list" aria-hidden="true"></i> Departamentos</i></a></li>
+
+                                <li><a href="{{ path('cargos_index', { 'page': 1 }) }}"><i class="fa fa-list" aria-hidden="true"></i> Roles</i></a></li>
+
+                                <li><a href="{{ path('logs_index', { 'page': 1 }) }}"><i class="fa fa-database" aria-hidden="true"></i> Registro</a></li>
+
+                                <li><a href="{{ path('administrador_inicio_logoutbridge') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir</a></li> 
+                            </ul>
+                        </div>
+                    </div>
+                </nav>               
+                {% elseif superAdmin == 0 %}
+                <nav id="custom-bootstrap-menu" class="navbar navbar-default" role="navigation">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                             <span class="icon-bar"></span>
+                            </button>
+                        <div>
+                        <div style="position: relative; top:-5px; float: left;"><a class="navbar-brand" href="#"><img src="{{ asset('images/logo-coopidrogas-peq.png') }}"></a></div>
+                        <div style="position: relative; float: left;"><a class="navbar-brand" href="#">{{ app.user.nombre }}</a></div>
+                        <div style="clear: both;"></div>
+                        </div>
+
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="active"><a href="{{ path('administrador_inicio') }}"><i class="fa fa-home" aria-hidden="true"></i> Inicio</a></li>
+                                {% if app.user.menuAdministradores == 1 %}
+                                <li><a href="{{ path('administrador_index', { 'page': 1 }) }}"><i class="fa fa-user-plus" aria-hidden="true"></i> Administradores</a></li>
+                                {% endif %}
+                                {% if app.user.menuUsuarios == 1 %}
+                                <li><a href="{{ path('usuario_index', { 'page': 1 }) }}"><i class="fa fa-user" aria-hidden="true"></i> Usuarios del sistema</a></li>
+                                {% endif %}
+                                {% if app.user.menuProveedores == 1 %}
+                                <li><a href="{{ path('proveedores_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Proveedores</a></li>
+                                {% endif %}
+                                {% if app.user.menuContactos == 1 %}
+                                <li><a href="{{ path('contactos_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos</a></li> 
+                                {% endif %}
+                                {% if app.user.menuAreas == 1 %}
+                                <li><a href="{{ path('areas_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos</a></li> 
+                                {% endif %}
+                                {% if app.user.menuCargos == 1 %}
+                                <li><a href="{{ path('cargos_index', { 'page': 1 }) }}"><i class="fa fa-users" aria-hidden="true"></i> Contactos</a></li> 
+                                {% endif %}
+                                {% if app.user.menuLogs == 1 %}
+                                <li><a href="{{ path('logss_index', { 'page': 1 }) }}"><i class="fa fa-database" aria-hidden="true"></i> Registro</a></li>
+                                {% endif %}
+                                <li><a href="#" data-toggle="modal" data-target="#myModal"><i class="fa fa-lock" aria-hidden="true"></i> Cambiar contraseña</i></a></li>
+                                <li><a href="{{ path('administrador_inicio_logoutbridge') }}"><i class="fa fa-sign-out" aria-hidden="true"></i> Salir</a></li> 
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                {% endif %}
+            {% endif %} 
+
+        {% endblock %}
+        {% if app.user and is_granted('ROLE_USER') %}  
+
+        <div class="container-fluid">           
+                <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
+                <div class="container col-xs-10 col-sm-8 col-md-6 col-lg-4" style="margin: 0px auto;">
+                    {{ include('messages.html.twig') }}                   
+                </div>
+                </div>           
+        </div>
+        {% elseif app.user and is_granted('ROLE_ADMINISTRATOR') %} 
+        <div class="container-fluid">           
+                <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
+                <div class="container col-xs-10 col-sm-8 col-md-6 col-lg-4" style="margin: 0px auto;">
+                    {{ include('messages.html.twig') }}                   
+                </div>
+                </div>           
+        </div>
+        {% else %} 
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <div class="container-fluid">           
+                <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4">&nbsp;</div>
+                <div class="container col-xs-10 col-sm-8 col-md-6 col-lg-4" style="margin: 0px auto;">
+                    {{ include('messages.html.twig') }}                   
+                </div>
+                </div>           
+        </div>
+        {% endif %} 
+        <div class="container-fluid">
+            {% block body %}
+                <div class="row">
+                    <div id="main" class="col-sm-12">                       
+                        {% block main %}                        
+                        
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+        {% block footer %}
+        <!-- <footer class="footer">
+            <div class="container">
+              <p class="text-muted"><img src="{{ asset('images/logo-coopidrogas-peq-min.png') }}"> / {{ "now"|date("Y") }}</p>
+            </div>
+        </footer> -->
+        {% endblock %}
+    </body>
+</html>

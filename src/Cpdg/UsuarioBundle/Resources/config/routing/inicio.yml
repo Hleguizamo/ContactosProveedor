@@ -1,0 +1,18 @@
+usuario_inicio:
+    pattern:  /
+    defaults: { _controller: "CpdgUsuarioBundle:Inicio:index" }
+usuario_inicio_login_error:
+    pattern:  /loginError
+    defaults: { _controller: "CpdgUsuarioBundle:Inicio:loginError" }
+    methods:  [GET, POST]
+usuario_inicio_login:
+    pattern:  /login
+    defaults: { _controller: "CpdgUsuarioBundle:Inicio:login" }
+usuario_inicio_login_check:
+    pattern: /login_check
+usuario_inicio_logout:
+    pattern: /logout
+    defaults: { _controller: "CpdgUsuarioBundle:Inicio:logout" }
+usuario_inicio_logoutbridge:
+    pattern: /logoutBridge
+    defaults: { _controller: "CpdgUsuarioBundle:Inicio:logoutBridge" }

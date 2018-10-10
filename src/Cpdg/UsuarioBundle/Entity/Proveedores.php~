@@ -1,0 +1,68 @@
+<?php
+
+namespace Cpdg\UsuarioBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Proveedores
+ *
+ * @ORM\Table(name="proveedores", uniqueConstraints={@ORM\UniqueConstraint(name="nit", columns={"nit"})})
+ * @ORM\Entity
+ */
+class Proveedores
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="nit", type="integer", nullable=false)
+     */
+    private $nit;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=256, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=32, nullable=false)
+     */
+    private $codigo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="representante_legal", type="string", length=255, nullable=false)
+     */
+    private $representanteLegal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email_representante_legal", type="string", length=255, nullable=false)
+     */
+    private $emailRepresentanteLegal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono_representante_legal", type="string", length=255, nullable=false)
+     */
+    private $telefonoRepresentanteLegal;
+
+
+}
+

@@ -1,0 +1,18 @@
+areas_index:
+    path:     /page/{page}
+    defaults: { _controller: "CpdgAdministradorBundle:Areas:index" }
+    methods:  [GET, POST]
+areas_new:
+    path:     /new
+    defaults: { _controller: "CpdgAdministradorBundle:Areas:new" }
+    methods:  [GET, POST]
+
+areas_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "CpdgAdministradorBundle:Areas:edit" }
+    methods:  [GET, POST]
+
+areas_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "CpdgAdministradorBundle:Areas:delete" }
+    methods:  [GET, POST]
